@@ -1,5 +1,6 @@
 package com.example.administrator.home_ex3;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,12 +9,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
     private Spinner spinner;
     private String loction_selcted ;
-
+    private Context context;
 
 
     @Override
@@ -21,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
         spinner = (Spinner) findViewById(R.id.spinner);
 
 
@@ -31,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
                 Log.d("@@@",loction_selcted);
-
-
+                get_forecast("s");
 
             }
 
@@ -43,11 +55,48 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+    }
 
 
+
+
+    private void get_forecast(String location)
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "api.openweathermap.org/data/2.5/forecast?q={Shuzenji},{JP}";
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jokes = response.getJSONArray("country");
+                    if (jokes.length() > 0){
+                       // Joke joke = new Joke(jokes.getJSONObject(0));
+                      Log.d("debug",jokes.toString());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Utils.cancelProgressDialog();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Utils.cancelProgressDialog();
+                Toast.makeText(context, "Failed to get forecast", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        queue.add(request);
 
 
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
