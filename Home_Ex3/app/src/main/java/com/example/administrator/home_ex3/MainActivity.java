@@ -43,8 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
-                Log.d("@@@",loction_selcted);
-                get_forecast("s");
+                Log.d("@@@", loction_selcted);
+
+                if(loction_selcted.equals("Curent location"))
+                {
+                    //// TODO: get location
+
+
+                }
+                get_forecast(loction_selcted);
 
             }
 
@@ -63,18 +70,20 @@ public class MainActivity extends AppCompatActivity {
     private void get_forecast(String location)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "api.openweathermap.org/data/2.5/forecast?q={Shuzenji},{JP}";
+        String url = "http://api.openweathermap.org/data/2.5/weather?q="+location+"&appid=2de143494c0b295cca9337e1e96b00e0";
 
+
+        Log.d("@@@222",location);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jokes = response.getJSONArray("country");
-                    if (jokes.length() > 0){
-                       // Joke joke = new Joke(jokes.getJSONObject(0));
-                      Log.d("debug",jokes.toString());
-                    }
+                try
+                {
+                    Log.d("@@@222",response.toString()); //all data
+
+                  //todo parse on data respnonse
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

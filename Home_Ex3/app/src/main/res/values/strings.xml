@@ -7,15 +7,15 @@
     <string-array name="location_arrays">
 
         <item>Curent location</item>
-        <item>Tel-Aviv</item>
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+        <item>Tel-aviv</item>
+        <item>Paris</item>
+        <item>Stockholm</item>
+        <item>London</item>
+        <item>Bangkok</item>
+        <item>Rome</item>
+        <item>Moscow</item>
+        <item>berlin</item>
+        <item>Lima</item>
     </string-array>
 
 
