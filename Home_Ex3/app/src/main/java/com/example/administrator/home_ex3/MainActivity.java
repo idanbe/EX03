@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private LocationManager locationManager;
     private final long SECOND = 1000;
     private final long MIN_DISTANCE = 5;
+    private String date;
+    private String hour;
+    private String temp;
+    private String discription;
 
 
     @Override
@@ -107,29 +111,39 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             public void onResponse(JSONObject response) {
                 try
                 {
-                   // Log.d("@@@222",response.toString()); //all data
 
-                  //todo parse on data respnonse
+                    JSONArray list = response.getJSONArray("list");
 
-                    //Log.d("@@@222","before joke");
-                    JSONArray jokes = response.getJSONArray("list");
-
-                   // Log.d("@@@222","afther joke:"+jokes.toString());
-                    String s1="d";
-                    if (jokes.length() > 0)
+                    if (list.length() > 0)
                     {
-                        JSONObject json =jokes.getJSONObject(1);
-                        Log.d("@@@222","json"+json.toString());
-                        try {
-                             s1 = json.getString("temp");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        for (int i =0; i<list.length();i++)
+                        {
 
-                     //   Log.d("@@@222",s1); //all data
-                     //   Log.d("@@@222","in if"); //all data
+                            JSONObject json =list.getJSONObject(i);
+                            JSONObject main = json.getJSONObject("main");
+                            JSONArray weather = json.getJSONArray("weather");
+                            JSONObject zero =weather.getJSONObject(0);
+
+                            try {
+                                temp = main.getString("temp");
+                                date = json.getString("dt_txt");
+                                hour = date.substring(11,19);
+                                date = date.substring(0,10);
+                                discription = zero.getString("description");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            Log.d("@@@222","-----------------------------------"); //all data
+                            Log.d("@@@222","date:"+date); //all data
+                            Log.d("@@@222","hour:"+hour); //all data
+                            Log.d("@@@222","temp:"+temp); //all data
+                            Log.d("@@@222","description:"+discription); //all data
+
+
+                        }
                     }
-                     //   Log.d("@@@222","out if"); //all data
 
 
 
