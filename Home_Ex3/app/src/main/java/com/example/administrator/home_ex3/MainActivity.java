@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,10 +22,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LocationListener
 {
@@ -39,6 +44,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private String hour;
     private String temp;
     private String discription;
+    private String icon_name;
+    private Picasso icon;
+    private ListView list;
+    private ImageView imageView;
+    private String url_icon;
 
 
     @Override
@@ -49,9 +59,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         context = this;
         spinner = (Spinner) findViewById(R.id.spinner);
 
-        //init location
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        //check GPS availability
+        //Initialize ImageView
+         imageView = (ImageView) findViewById(R.id.imageView);
+
+
+
+
+
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+
+
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -116,10 +137,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
                     if (list.length() > 0)
                     {
+                        Log.d("@@@222","list length"+list.length()); //all data
                         for (int i =0; i<list.length();i++)
                         {
 
-                            JSONObject json =list.getJSONObject(i);
+                            JSONObject json =list.getJSONObject(0);
                             JSONObject main = json.getJSONObject("main");
                             JSONArray weather = json.getJSONArray("weather");
                             JSONObject zero =weather.getJSONObject(0);
@@ -127,10 +149,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             try {
                                 temp = main.getString("temp");
                                 date = json.getString("dt_txt");
-                                hour = date.substring(11,19);
-                                date = date.substring(0,10);
+                                hour = date.substring(11, 19);
+                                date = date.substring(0, 10);
                                 discription = zero.getString("description");
-                            } catch (JSONException e) {
+                                icon_name = zero.getString("icon");
+
+                                url_icon =" http://openweathermap.org/img/w/"+icon_name+".png";
+                                //Loading image from below url into imageView
+                                Picasso.with(MainActivity.this)
+                                        .load(url_icon)
+                                        .into(imageView);
+
+
+                            }
+                            catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
@@ -140,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             Log.d("@@@222","hour:"+hour); //all data
                             Log.d("@@@222","temp:"+temp); //all data
                             Log.d("@@@222","description:"+discription); //all data
+                            Log.d("@@@222","icon:"+icon_name); //all data
+                            Log.d("@@@222","url_icon:"+url_icon); //all data
 
 
                         }
