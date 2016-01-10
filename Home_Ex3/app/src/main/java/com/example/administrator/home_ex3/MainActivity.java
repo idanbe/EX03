@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                         for (int i =0; i<list.length();i++)
                         {
 
-                            JSONObject json =list.getJSONObject(0);
+                            JSONObject json =list.getJSONObject(i);
                             JSONObject main = json.getJSONObject("main");
                             JSONArray weather = json.getJSONArray("weather");
                             JSONObject zero =weather.getJSONObject(0);
