@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/data"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="date 1"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/data"
+            android:text="time"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/img"
+            android:background="@drawable/ic_launcher"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/infoText"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="temp"
+            android:id="@+id/temp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginStart="42dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/data"
+            android:layout_toRightOf="@+id/data"
+            android:layout_toEndOf="@+id/data" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="info text"
+            android:id="@+id/infoText"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/data"
+            android:layout_toLeftOf="@+id/img"
+            android:layout_toStartOf="@+id/img" />
+
+</RelativeLayout>

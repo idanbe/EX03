@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         spinner = (Spinner) findViewById(R.id.spinner);
 
         //Initialize ImageView
-         imageView = (ImageView) findViewById(R.id.imageView);
+         //imageView = (ImageView) findViewById(R.id.imageView);
 
 
 
