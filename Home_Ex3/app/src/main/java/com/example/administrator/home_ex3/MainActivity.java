@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private ListView list;
     private ImageView imageView;
     private String url_icon;
+    private double lat;
+    private double lon;
+    private String url;
 
     private ListView ListView;
     private ListAdapter listAdapter;
@@ -98,7 +101,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 Log.d("@@@", loction_selcted);
 
                 if (loction_selcted.equals("Curent location")) {
+
                     //// TODO: get location
+                    //check GPS availability
+                    boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    if (isGPSAvailable) {
+
+                        //get GPS updates
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
+                    }
                 }
 
                 arrayList = new ArrayList<Item>();
@@ -161,8 +172,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private void get_forecast(String location)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.openweathermap.org/data/2.5/forecast?q="+location+"&units=metric"+"&appid=2de143494c0b295cca9337e1e96b00e0";
 
+        if(location.equals("Curent location"))
+        {
+            url = "http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&appid=2de143494c0b295cca9337e1e96b00e0";
+        }
+        else
+        {
+            url = "http://api.openweathermap.org/data/2.5/forecast?q="+location+"&units=metric"+"&appid=2de143494c0b295cca9337e1e96b00e0";
+        }
 
         Log.d("@@@222",location);
 
@@ -266,6 +284,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
+           lat = location.getLatitude();
+           lon = location.getLongitude();
 
     }
 
