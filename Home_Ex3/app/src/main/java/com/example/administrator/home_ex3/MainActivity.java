@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private ListView ListView;
     private ListAdapter listAdapter;
     private ArrayList<Item> arrayList;
-
+    private  Item item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +77,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         arrayList = new ArrayList<Item>();
 
 
-        Item item = setDataInItem("May 26, 2013" , "13:35" , "10c" , "Light rain");
-        arrayList.add(item); // any item is row
-        arrayList.add(item);
-        arrayList.add(item);
+       // Item item = setDataInItem("May 26, 2015" , "13:35" , "10c" , "Light rain");
+        //arrayList.add(item); // any item is row
 
         // connect between row layout and
-        listAdapter = new ListAdapter(this, arrayList);
+       // listAdapter = new ListAdapter(this, arrayList);
 
 
-        ListView.setAdapter(listAdapter);
+        //ListView.setAdapter(listAdapter);
 
         //Initialize ImageView
         //imageView = (ImageView) findViewById(R.id.imageView);
@@ -102,11 +100,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
                 Log.d("@@@", loction_selcted);
 
-                if(loction_selcted.equals("Curent location"))
-                {
+                if (loction_selcted.equals("Curent location")) {
                     //// TODO: get location
                 }
+
+                arrayList = new ArrayList<Item>();
                 get_forecast(loction_selcted);
+
+                listAdapter = new ListAdapter(MainActivity.this, arrayList);
+                ListView.setAdapter(listAdapter);
 
             }
 
@@ -117,11 +119,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
         });
 
+
+
+
+
+
     }
 
 
     private Item setDataInItem(String date , String time , String temp , String info) {
 
+        Log.d("@@@222","setdata");
         Item newItem = new Item();
 
         newItem.setDate(date);
@@ -184,13 +192,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
                                 url_icon =" http://openweathermap.org/img/w/"+icon_name+".png";
                                 //Loading image from below url into imageView
-                                Picasso.with(MainActivity.this)
-                                        .load(url_icon)
-                                        .into(imageView);
+                              //  Picasso.with(MainActivity.this)
+                              //          .load(url_icon)
+                               //         .into(imageView);
                             }
                             catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            item = setDataInItem(date ,hour, temp ,description);
+                            arrayList.add(item);
 
 
                             Log.d("@@@222","-----------------------------------"); //all data
