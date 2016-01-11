@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LocationListener
 {
@@ -43,12 +44,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private String date;
     private String hour;
     private String temp;
-    private String discription;
+    private String description;
     private String icon_name;
     private Picasso icon;
     private ListView list;
     private ImageView imageView;
     private String url_icon;
+
+    private ListView ListView;
+    private ListAdapter listAdapter;
+    private ArrayList<Item> arrayList;
 
 
     @Override
@@ -57,23 +62,38 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         setContentView(R.layout.activity_main);
 
         context = this;
+
         spinner = (Spinner) findViewById(R.id.spinner);
+        ListView = (ListView) findViewById(R.id.item_list);
+
+        //******************
+        // idan ahomo NOTE !!
+        // you need to insert the data to arrayList, any row is one item and array list is all items(row)
+        // where you need to add row - then create item like : item = newItem() and save the parameters in row according to the function setDataInItem()
+        //
+        //******************
+
+        // for test ... one row
+        arrayList = new ArrayList<Item>();
+
+
+        Item item = setDataInItem("May 26, 2013" , "13:35" , "10c" , "Light rain");
+        arrayList.add(item); // any item is row
+        arrayList.add(item);
+        arrayList.add(item);
+
+        // connect between row layout and
+        listAdapter = new ListAdapter(this, arrayList);
+
+
+        ListView.setAdapter(listAdapter);
 
         //Initialize ImageView
-         //imageView = (ImageView) findViewById(R.id.imageView);
-
-
-
-
-
+        //imageView = (ImageView) findViewById(R.id.imageView);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-
-
-
-
-
+        // spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View selectedItemView, int pos, long id) {
@@ -85,10 +105,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 if(loction_selcted.equals("Curent location"))
                 {
                     //// TODO: get location
-
-
-
-
                 }
                 get_forecast(loction_selcted);
 
@@ -104,6 +120,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     }
 
 
+    private Item setDataInItem(String date , String time , String temp , String info) {
+
+        Item newItem = new Item();
+
+        newItem.setDate(date);
+        newItem.setTime(time);
+        newItem.setTemperature(temp);
+        newItem.setInfo(info);
+
+        // Add some more dummy data for testing
+        return newItem;
+    }
 
     @Override
     protected void onStart() {
@@ -151,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                                 date = json.getString("dt_txt");
                                 hour = date.substring(11, 19);
                                 date = date.substring(0, 10);
-                                discription = zero.getString("description");
+                                description = zero.getString("description");
                                 icon_name = zero.getString("icon");
 
                                 url_icon =" http://openweathermap.org/img/w/"+icon_name+".png";
@@ -159,8 +187,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                                 Picasso.with(MainActivity.this)
                                         .load(url_icon)
                                         .into(imageView);
-
-
                             }
                             catch (JSONException e) {
                                 e.printStackTrace();
@@ -171,18 +197,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             Log.d("@@@222","date:"+date); //all data
                             Log.d("@@@222","hour:"+hour); //all data
                             Log.d("@@@222","temp:"+temp); //all data
-                            Log.d("@@@222","description:"+discription); //all data
+                            Log.d("@@@222","description:" + description); //all data
                             Log.d("@@@222","icon:"+icon_name); //all data
                             Log.d("@@@222","url_icon:"+url_icon); //all data
 
 
                         }
                     }
-
-
-
-
-
 
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -8,22 +8,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/data"
+            android:id="@+id/date"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:text="date 1"
-            android:textSize="25sp"
+            android:text="date"
+            android:textSize="15sp"
             android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/time"
+            android:id="@+id/cTime"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_below="@id/data"
+            android:layout_below="@id/date"
             android:text="time"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:textStyle="bold"/>
 
         <ImageView
@@ -43,23 +43,24 @@
             android:layout_height="wrap_content"
             android:text="temp"
             android:id="@+id/temp"
-            android:layout_marginLeft="42dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginStart="42dp"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:layout_below="@+id/data"
-            android:layout_toRightOf="@+id/data"
-            android:layout_toEndOf="@+id/data" />
+            android:layout_below="@+id/date"
+            android:layout_toRightOf="@+id/date"
+            android:layout_toEndOf="@+id/date" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="info text"
             android:id="@+id/infoText"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:layout_below="@+id/data"
+            android:layout_below="@+id/date"
             android:layout_toLeftOf="@+id/img"
-            android:layout_toStartOf="@+id/img" />
+            android:layout_toStartOf="@+id/img"
+            android:layout_marginRight="10dp"/>
 
 </RelativeLayout>
