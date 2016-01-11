@@ -67,14 +67,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         ListView = (ListView) findViewById(R.id.item_list);
 
         //******************
-        // idan ahomo NOTE !!
-        // you need to insert the data to arrayList, any row is one item and array list is all items(row)
-        // where you need to add row - then create item like : item = newItem() and save the parameters in row according to the function setDataInItem()
-        //
+        // aviram ahomo mkelf bannot aim hpeh NOTE !!
         //******************
 
         // for test ... one row
-        arrayList = new ArrayList<Item>();
+        //arrayList = new ArrayList<Item>();
 
 
        // Item item = setDataInItem("May 26, 2015" , "13:35" , "10c" , "Light rain");
@@ -110,11 +107,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 listAdapter = new ListAdapter(MainActivity.this, arrayList);
                 ListView.setAdapter(listAdapter);
 
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
+               // ListView.setAdapter(listAdapter);
             }
 
         });
@@ -126,17 +125,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     }
 
+    public Context get_context()
+    {
+        return context;
+    }
+    private Item setDataInItem(String date , String time , String temp , String info,String url) {
 
-    private Item setDataInItem(String date , String time , String temp , String info) {
-
-        Log.d("@@@222","setdata");
+        Log.d("@@@222", "setdata");
         Item newItem = new Item();
 
         newItem.setDate(date);
         newItem.setTime(time);
         newItem.setTemperature(temp);
         newItem.setInfo(info);
-
+        newItem.setUrl(url);
         // Add some more dummy data for testing
         return newItem;
     }
@@ -144,8 +146,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     @Override
     protected void onStart() {
         super.onStart();
-
+        Log.d("debug","onstart");
     }
+
 
 
 
@@ -200,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                                 e.printStackTrace();
                             }
 
-                            item = setDataInItem(date ,hour, temp ,description);
+                            item = setDataInItem(date ,hour, temp ,description,url_icon);
                             arrayList.add(item);
 
 

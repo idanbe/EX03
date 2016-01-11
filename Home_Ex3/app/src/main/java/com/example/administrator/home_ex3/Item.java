@@ -9,7 +9,7 @@ public class Item {
     private String date;
     private String time;
     private String info;
-
+    private String url;
 
     public String getTemperature() {
             return this.temperature;
@@ -42,5 +42,7 @@ public class Item {
         this.info = info;
     }
 
+    public String get_iconUrl() { return this.url;}
+    public void setUrl(String Url) { this.url = Url;}
 
 }

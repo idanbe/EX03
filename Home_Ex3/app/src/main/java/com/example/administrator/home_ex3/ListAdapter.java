@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,7 @@ public class ListAdapter extends BaseAdapter {
         TextView time;
         TextView temperature;
         TextView info ;
+        ImageView image;
     }
 
     private ArrayList<Item> listData;
@@ -62,6 +66,7 @@ public class ListAdapter extends BaseAdapter {
             holder.time = (TextView) convertView.findViewById(R.id.cTime);
             holder.temperature = (TextView) convertView.findViewById(R.id.temp);
             holder.info = (TextView)convertView.findViewById(R.id.infoText);
+            holder.image = (ImageView)convertView.findViewById(R.id.img);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -71,6 +76,12 @@ public class ListAdapter extends BaseAdapter {
         holder.time.setText(listData.get(location).getTime());
         holder.temperature.setText(listData.get(location).getTemperature());
         holder.info.setText(listData.get(location).getInfo());
+        //Loading image from below url into imageView
+
+          Picasso.with(layoutInflater.getContext())
+                  .load(listData.get(location).get_iconUrl())
+                  .into(holder.image);
+
 
         return convertView;
     }
