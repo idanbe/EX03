@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     final String JSON_LIST = "list";
     final String JSON_MAIN = "main";
     final String JSON_WEATHER = "weather";
+    final int JSON_ZERO = 0 ;
 
     final String TEMP = "temp";
     final String DT_TXT = "dt_txt";
@@ -99,9 +100,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         spinner = (Spinner) findViewById(R.id.spinner);
         ListView = (ListView) findViewById(R.id.item_list);
 
-        //
+        // show all inems
         listAdapter = new ListAdapter(MainActivity.this, arrayList);
 
+        // location
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // spinner
@@ -109,13 +111,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onItemSelected(AdapterView<?> parent, View selectedItemView, int pos, long id) {
 
+                // Loading ...
                 progressDialog = ProgressDialog.show(get_context(), PROGRESS_TITTLE, PROGRESS_MASSAGE, true);
 
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
                 if (loction_selcted.equals(CURRENT_LOCATION)) {
 
-                    //// TODO: get location
                     //check GPS availability
                     boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                     if (isGPSAvailable) {
@@ -124,10 +126,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                     }
                 }
 
-
+                // new list
                 arrayList = new ArrayList<Item>();
                 get_forecast(loction_selcted);
 
+                // show all items
                 listAdapter = new ListAdapter(MainActivity.this, arrayList);
                 ListView.setAdapter(listAdapter);
 
@@ -143,12 +146,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     }
 
+    //get context
     public Context get_context()
     {
         return context;
     }
 
 
+    // set data in item
     private Item setDataInItem(String date , String time , String temp , String info,String url) {
 
         Item newItem = new Item();
@@ -162,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         return newItem;
     }
 
+    // get forecast according to user selected
     private void get_forecast(String location)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -175,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             url = "http://api.openweathermap.org/data/2.5/forecast?q="+location+"&units=metric"+"&appid=2de143494c0b295cca9337e1e96b00e0";
         }
 
+        // JSON
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -185,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             JSONObject json =list.getJSONObject(i);
                             JSONObject main = json.getJSONObject(JSON_MAIN);
                             JSONArray weather = json.getJSONArray(JSON_WEATHER);
-                            JSONObject zero =weather.getJSONObject(0);
+                            JSONObject zero =weather.getJSONObject(JSON_ZERO);
 
                             try {
                                 temp = main.getString(TEMP);
