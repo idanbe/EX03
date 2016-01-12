@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     final String FAILED_LOCATION = "Failed to get location";
     final String NETWORK_TITTLE = "Network";
     final String NETWORK_MASSAGE = "please check the connection network";
+    final String MASSAGE_BUTTON = "OK" ;
 
 
     @Override
@@ -240,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //Utils.cancelProgressDialog();
 
             }
         }, new Response.ErrorListener() {
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
 
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onLocationChanged(Location location) {
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         final AlertDialog.Builder inputAlert = new AlertDialog.Builder(get_context());
         inputAlert.setTitle(tittle);
         inputAlert.setMessage(text);
-        inputAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        inputAlert.setPositiveButton(MASSAGE_BUTTON, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 progressDialog.cancel();
