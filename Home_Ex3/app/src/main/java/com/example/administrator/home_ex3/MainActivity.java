@@ -99,9 +99,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         spinner = (Spinner) findViewById(R.id.spinner);
         ListView = (ListView) findViewById(R.id.item_list);
 
+        //
         listAdapter = new ListAdapter(MainActivity.this, arrayList);
-
-
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -126,13 +125,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 }
 
 
-
                 arrayList = new ArrayList<Item>();
                 get_forecast(loction_selcted);
 
                 listAdapter = new ListAdapter(MainActivity.this, arrayList);
                 ListView.setAdapter(listAdapter);
-
 
             }
 
@@ -150,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     {
         return context;
     }
+
+
     private Item setDataInItem(String date , String time , String temp , String info,String url) {
 
         Item newItem = new Item();
@@ -161,13 +160,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         newItem.setUrl(url);
 
         return newItem;
-    }
-
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     private void get_forecast(String location)
@@ -186,16 +178,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try
-                {
-
+                try {
                     JSONArray list = response.getJSONArray(JSON_LIST);
-
-                    if (list.length() > 0)
-                    {
-                        for (int i =0; i<list.length();i++)
-                        {
-
+                    if (list.length() > 0) {
+                        for (int i =0; i<list.length();i++) {
                             JSONObject json =list.getJSONObject(i);
                             JSONObject main = json.getJSONObject(JSON_MAIN);
                             JSONArray weather = json.getJSONArray(JSON_WEATHER);
@@ -210,10 +196,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                                 icon_name = zero.getString(ICON);
 
                                 url_icon =" http://openweathermap.org/img/w/"+icon_name+".png";
-                                //Loading image from below url into imageView
-                              //  Picasso.with(MainActivity.this)
-                              //          .load(url_icon)
-                               //         .into(imageView);
+
                             }
                             catch (JSONException e) {
                                 e.printStackTrace();
@@ -225,16 +208,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             arrayList.add(item);
 
                             ListView.setAdapter(listAdapter);
-
-
-                            /*Log.d("@@@222","-----------------------------------"); //all data
-                            Log.d("@@@222","date:"+date); //all data
-                            Log.d("@@@222","hour:"+hour); //all data
-                            Log.d("@@@222","temp:"+temp); //all data
-                            Log.d("@@@222","description:" + description); //all data
-                            Log.d("@@@222","icon:"+icon_name); //all data
-                            Log.d("@@@222","url_icon:"+url_icon); //all data*/
-
                         }
                     }
 
@@ -251,42 +224,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
             }
         });
-
         queue.add(request);
-
-
     }
-
-
-
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @Override
     public void onLocationChanged(Location location) {
            lat = location.getLatitude();
            lon = location.getLongitude();
-
     }
 
     private void massage(String tittle , String text){
