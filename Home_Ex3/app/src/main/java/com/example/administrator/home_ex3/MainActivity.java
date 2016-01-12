@@ -1,10 +1,15 @@
 package com.example.administrator.home_ex3;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Network;
+import android.preference.DialogPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     final String ICON = "icon" ;
 
     final String FAILED_LOCATION = "Failed to get location";
+    final String NETWORK_TITTLE = "Network";
+    final String NETWORK_MASSAGE = "please check the connection network";
 
 
     @Override
@@ -110,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
                     //// TODO: get location
                     //check GPS availability
-                    boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                     if (isGPSAvailable) {
                         //get GPS updates
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
@@ -233,13 +240,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Utils.cancelProgressDialog();
+                //Utils.cancelProgressDialog();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Utils.cancelProgressDialog();
+                massage(NETWORK_TITTLE ,NETWORK_MASSAGE );
                 Toast.makeText(context, FAILED_LOCATION , Toast.LENGTH_SHORT).show();
 
             }
@@ -280,6 +287,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener
            lat = location.getLatitude();
            lon = location.getLongitude();
 
+    }
+
+    private void massage(String tittle , String text){
+
+        final AlertDialog.Builder inputAlert = new AlertDialog.Builder(get_context());
+        inputAlert.setTitle(tittle);
+        inputAlert.setMessage(text);
+        inputAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progressDialog.cancel();
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = inputAlert.create();
+        alertDialog.show();
     }
 
     @Override
