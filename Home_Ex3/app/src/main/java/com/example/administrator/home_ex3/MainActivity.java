@@ -1,5 +1,6 @@
 package com.example.administrator.home_ex3;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private ArrayList<Item> arrayList;
     private  Item item;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,25 +72,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         spinner = (Spinner) findViewById(R.id.spinner);
         ListView = (ListView) findViewById(R.id.item_list);
 
-        //******************
-        // aviram ahomo mkelf bannot aim hpeh NOTE !!
-        //******************
-
-        // for test ... one row
-        //arrayList = new ArrayList<Item>();
+        listAdapter = new ListAdapter(MainActivity.this, arrayList);
 
 
-       // Item item = setDataInItem("May 26, 2015" , "13:35" , "10c" , "Light rain");
-        //arrayList.add(item); // any item is row
-
-        // connect between row layout and
-       // listAdapter = new ListAdapter(this, arrayList);
-
-
-        //ListView.setAdapter(listAdapter);
-
-        //Initialize ImageView
-        //imageView = (ImageView) findViewById(R.id.imageView);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -95,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View selectedItemView, int pos, long id) {
+
+                progressDialog = ProgressDialog.show(get_context(), "Loading", "pleas wait..", true);
 
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
@@ -106,11 +95,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                     //check GPS availability
                     boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                     if (isGPSAvailable) {
-
                         //get GPS updates
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
                     }
+                    else{
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    }
                 }
+
+
 
                 arrayList = new ArrayList<Item>();
                 get_forecast(loction_selcted);
@@ -221,8 +214,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                                 e.printStackTrace();
                             }
 
+                            progressDialog.cancel();
+
                             item = setDataInItem(date ,hour, temp ,description,url_icon);
                             arrayList.add(item);
+
+                            ListView.setAdapter(listAdapter);
 
 
                             Log.d("@@@222","-----------------------------------"); //all data
