@@ -43,8 +43,7 @@
             android:layout_height="wrap_content"
             android:text="temp"
             android:id="@+id/temp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginStart="42dp"
+            android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textStyle="bold"
             android:layout_below="@+id/date"
@@ -61,6 +60,6 @@
             android:layout_below="@+id/date"
             android:layout_toLeftOf="@+id/img"
             android:layout_toStartOf="@+id/img"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="5dp" />
 
 </RelativeLayout>

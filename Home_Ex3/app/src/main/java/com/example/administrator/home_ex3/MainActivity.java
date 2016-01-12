@@ -230,7 +230,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             Log.d("@@@222","icon:"+icon_name); //all data
                             Log.d("@@@222","url_icon:"+url_icon); //all data
 
-
                         }
                     }
 
