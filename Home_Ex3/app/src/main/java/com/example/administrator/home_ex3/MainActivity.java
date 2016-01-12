@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private String temp;
     private String description;
     private String icon_name;
-    private Picasso icon;
-    private ListView list;
-    private ImageView imageView;
     private String url_icon;
     private double lat;
     private double lon;
@@ -61,6 +58,28 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private  Item item;
 
     private ProgressDialog progressDialog;
+    final String PROGRESS_TITTLE = "Loading" ;
+    final String PROGRESS_MASSAGE = "please wait..." ;
+    final String CURRENT_LOCATION = "Current location";
+
+    final String JSON_LIST = "list";
+    final String JSON_MAIN = "main";
+    final String JSON_WEATHER = "weather";
+
+    final String TEMP = "temp";
+    final String DT_TXT = "dt_txt";
+
+    final int SUBSTRING_DATE_START = 0;
+    final int SUBSTRING_DATE_END = 10;
+
+    final int SUBSTRING_HOUR_START = 11;
+    final int SUBSTRING_HOUR_END = 19;
+
+    final String DESCRIPTION = "description" ;
+    final String ICON = "icon" ;
+
+    final String FAILED_LOCATION = "Failed to get location";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +102,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onItemSelected(AdapterView<?> parent, View selectedItemView, int pos, long id) {
 
-                progressDialog = ProgressDialog.show(get_context(), "Loading", "pleas wait..", true);
+                progressDialog = ProgressDialog.show(get_context(), PROGRESS_TITTLE, PROGRESS_MASSAGE, true);
 
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
-                Log.d("@@@", loction_selcted);
-
-                if (loction_selcted.equals("Curent location")) {
+                if (loction_selcted.equals(CURRENT_LOCATION)) {
 
                     //// TODO: get location
                     //check GPS availability
@@ -97,9 +114,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                     if (isGPSAvailable) {
                         //get GPS updates
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
-                    }
-                    else{
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
                 }
 
@@ -122,11 +136,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
         });
 
-
-
-
-
-
     }
 
     public Context get_context()
@@ -135,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     }
     private Item setDataInItem(String date , String time , String temp , String info,String url) {
 
-        Log.d("@@@222", "setdata");
         Item newItem = new Item();
 
         newItem.setDate(date);
@@ -143,17 +151,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         newItem.setTemperature(temp);
         newItem.setInfo(info);
         newItem.setUrl(url);
-        // Add some more dummy data for testing
+
         return newItem;
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("debug","onstart");
-    }
-
-
 
 
 
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        if(location.equals("Curent location"))
+        if(location.equals(CURRENT_LOCATION))
         {
             url = "http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&appid=2de143494c0b295cca9337e1e96b00e0";
         }
@@ -175,34 +175,31 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             url = "http://api.openweathermap.org/data/2.5/forecast?q="+location+"&units=metric"+"&appid=2de143494c0b295cca9337e1e96b00e0";
         }
 
-        Log.d("@@@222",location);
-
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try
                 {
 
-                    JSONArray list = response.getJSONArray("list");
+                    JSONArray list = response.getJSONArray(JSON_LIST);
 
                     if (list.length() > 0)
                     {
-                        Log.d("@@@222","list length"+list.length()); //all data
                         for (int i =0; i<list.length();i++)
                         {
 
                             JSONObject json =list.getJSONObject(i);
-                            JSONObject main = json.getJSONObject("main");
-                            JSONArray weather = json.getJSONArray("weather");
+                            JSONObject main = json.getJSONObject(JSON_MAIN);
+                            JSONArray weather = json.getJSONArray(JSON_WEATHER);
                             JSONObject zero =weather.getJSONObject(0);
 
                             try {
-                                temp = main.getString("temp");
-                                date = json.getString("dt_txt");
-                                hour = date.substring(11, 19);
-                                date = date.substring(0, 10);
-                                description = zero.getString("description");
-                                icon_name = zero.getString("icon");
+                                temp = main.getString(TEMP);
+                                date = json.getString(DT_TXT);
+                                hour = date.substring(SUBSTRING_HOUR_START, SUBSTRING_HOUR_END);
+                                date = date.substring(SUBSTRING_DATE_START, SUBSTRING_DATE_END);
+                                description = zero.getString(DESCRIPTION);
+                                icon_name = zero.getString(ICON);
 
                                 url_icon =" http://openweathermap.org/img/w/"+icon_name+".png";
                                 //Loading image from below url into imageView
@@ -222,13 +219,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             ListView.setAdapter(listAdapter);
 
 
-                            Log.d("@@@222","-----------------------------------"); //all data
+                            /*Log.d("@@@222","-----------------------------------"); //all data
                             Log.d("@@@222","date:"+date); //all data
                             Log.d("@@@222","hour:"+hour); //all data
                             Log.d("@@@222","temp:"+temp); //all data
                             Log.d("@@@222","description:" + description); //all data
                             Log.d("@@@222","icon:"+icon_name); //all data
-                            Log.d("@@@222","url_icon:"+url_icon); //all data
+                            Log.d("@@@222","url_icon:"+url_icon); //all data*/
 
                         }
                     }
@@ -243,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onErrorResponse(VolleyError error) {
                 Utils.cancelProgressDialog();
-                Toast.makeText(context, "Failed to get forecast", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, FAILED_LOCATION , Toast.LENGTH_SHORT).show();
 
             }
         });

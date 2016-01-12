@@ -6,7 +6,8 @@
 
     <string-array name="location_arrays">
 
-        <item>Curent location</item>
+        current location
+        <item>Current location</item>
         <item>Tel-aviv</item>
         <item>Paris</item>
         <item>Stockholm</item>

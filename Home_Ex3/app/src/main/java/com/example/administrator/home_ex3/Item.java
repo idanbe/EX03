@@ -42,7 +42,11 @@ public class Item {
         this.info = info;
     }
 
-    public String get_iconUrl() { return this.url;}
-    public void setUrl(String Url) { this.url = Url;}
+    public String get_iconUrl() {
+        return this.url;
+    }
+    public void setUrl(String Url) {
+        this.url = Url;
+    }
 
 }
