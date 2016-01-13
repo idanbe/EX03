@@ -15,7 +15,7 @@ public class Item {
             return this.temperature;
         }
     public void setTemperature(String temperature) {
-        this.temperature = temperature;
+        this.temperature = temperature+"c";
     }
 
 
