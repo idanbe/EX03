@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     final int SUBSTRING_DATE_START = 0;
     final int SUBSTRING_DATE_END = 10;
-
+    final int SUBSTRING_temp_START = 0;
+    final char SUBSTRING_temp_END = '.';
     final int SUBSTRING_HOUR_START = 11;
     final int SUBSTRING_HOUR_END = 19;
 
@@ -124,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                         //get GPS updates
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
                     }
+                    Log.d("gps", "" + isGPSAvailable);
+
                 }
 
                 // new list
@@ -174,7 +177,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
         if(location.equals(CURRENT_LOCATION))
         {
+            Log.d("gps","latUrl:"+lat);
+            Log.d("gps","lonUrl:"+lon);
+
             url = "http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&appid=2de143494c0b295cca9337e1e96b00e0";
+            Log.d("gps","url:"+url);
         }
         else
         {
@@ -196,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
                             try {
                                 temp = main.getString(TEMP);
+                                temp = temp.substring(SUBSTRING_temp_START,temp.indexOf(SUBSTRING_temp_END));
                                 date = json.getString(DT_TXT);
                                 hour = date.substring(SUBSTRING_HOUR_START, SUBSTRING_HOUR_END);
                                 date = date.substring(SUBSTRING_DATE_START, SUBSTRING_DATE_END);
@@ -210,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                             }
 
                             progressDialog.cancel();
+
 
                             item = setDataInItem(date ,hour, temp ,description,url_icon);
                             arrayList.add(item);
@@ -238,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     public void onLocationChanged(Location location) {
            lat = location.getLatitude();
            lon = location.getLongitude();
+            Log.d("gps",""+lat);
+            Log.d("gps",""+lon);
     }
 
     private void massage(String tittle , String text){
