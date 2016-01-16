@@ -1,8 +1,6 @@
 package com.example.administrator.home_ex3;
 
-/**
- * Created by AviramAlkobi on 10/01/2016.
- */
+
 public class Item {
 
     private String temperature;
@@ -10,12 +8,13 @@ public class Item {
     private String time;
     private String info;
     private String url;
+    private String Celsius ="c";
 
     public String getTemperature() {
             return this.temperature;
         }
     public void setTemperature(String temperature) {
-        this.temperature = temperature+"c";
+        this.temperature = temperature+Celsius;
     }
 
 

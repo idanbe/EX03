@@ -12,9 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by AviramAlkobi on 10/01/2016.
- */
+
 
 
 public class ListAdapter extends BaseAdapter {

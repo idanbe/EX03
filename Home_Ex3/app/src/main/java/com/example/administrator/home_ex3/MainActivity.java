@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     final String JSON_MAIN = "main";
     final String JSON_WEATHER = "weather";
     final int JSON_ZERO = 0 ;
-
+    final int ZERO =0;
     final String TEMP = "temp";
     final String DT_TXT = "dt_txt";
 
@@ -117,18 +117,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
-                if (loction_selcted.equals(CURRENT_LOCATION)) {
-
+                if (loction_selcted.equals(CURRENT_LOCATION))
+                {
                     //check GPS availability
                     boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                     if (isGPSAvailable) {
                         //get GPS updates
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
                     }
-                    Log.d("gps", "" + isGPSAvailable);
-
                 }
-                else
+                else // not current location
                 {
                     // new list
                     arrayList = new ArrayList<Item>();
@@ -136,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                     // show all items
                     listAdapter = new ListAdapter(MainActivity.this, arrayList);
                     ListView.setAdapter(listAdapter);
-
-
                 }
 
 
@@ -145,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-               // ListView.setAdapter(listAdapter);
+
             }
 
         });
@@ -181,11 +176,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
         if(location.equals(CURRENT_LOCATION))
         {
-            Log.d("gps","latUrl:"+lat);
-            Log.d("gps","lonUrl:"+lon);
-
             url = "http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&appid=2de143494c0b295cca9337e1e96b00e0";
-            Log.d("gps","url:"+url);
         }
         else
         {
@@ -198,8 +189,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray list = response.getJSONArray(JSON_LIST);
-                    if (list.length() > 0) {
-                        for (int i =0; i<list.length();i++) {
+                    if (list.length() > ZERO) {
+                        for (int i =ZERO; i<list.length();i++) {
                             JSONObject json =list.getJSONObject(i);
                             JSONObject main = json.getJSONObject(JSON_MAIN);
                             JSONArray weather = json.getJSONArray(JSON_WEATHER);
@@ -249,10 +240,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
-           lat = location.getLatitude();
-           lon = location.getLongitude();
-            Log.d("gps",""+lat);
-            Log.d("gps",""+lon);
+        lat = location.getLatitude();
+        lon = location.getLongitude();
+
         // new list
         arrayList = new ArrayList<Item>();
         get_forecast(loction_selcted);

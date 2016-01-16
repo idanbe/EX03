@@ -1,14 +1,12 @@
 <resources>
-    <string name="app_name">Home_Ex3</string>
+    <string name="app_name">Weather Forecast</string>
 
 
     <string name="location">Choose a location</string>
 
     <string-array name="location_arrays">
-
-        current location
         <item>Current location</item>
-        <item>Tel-aviv</item>
+        <item>Tel-Aviv</item>
         <item>Paris</item>
         <item>Stockholm</item>
         <item>London</item>
@@ -18,8 +16,6 @@
         <item>berlin</item>
         <item>Lima</item>
     </string-array>
-
-
 
 
     <string name="action_settings">Settings</string>
