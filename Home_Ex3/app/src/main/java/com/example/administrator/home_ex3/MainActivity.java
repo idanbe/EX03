@@ -128,14 +128,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                     Log.d("gps", "" + isGPSAvailable);
 
                 }
+                else
+                {
+                    // new list
+                    arrayList = new ArrayList<Item>();
+                    get_forecast(loction_selcted);
+                    // show all items
+                    listAdapter = new ListAdapter(MainActivity.this, arrayList);
+                    ListView.setAdapter(listAdapter);
 
-                // new list
-                arrayList = new ArrayList<Item>();
-                get_forecast(loction_selcted);
 
-                // show all items
-                listAdapter = new ListAdapter(MainActivity.this, arrayList);
-                ListView.setAdapter(listAdapter);
+                }
+
 
             }
 
@@ -249,6 +253,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener
            lon = location.getLongitude();
             Log.d("gps",""+lat);
             Log.d("gps",""+lon);
+        // new list
+        arrayList = new ArrayList<Item>();
+        get_forecast(loction_selcted);
+        // show all items
+        listAdapter = new ListAdapter(MainActivity.this, arrayList);
+        ListView.setAdapter(listAdapter);
+
     }
 
     private void massage(String tittle , String text){
