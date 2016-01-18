@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private ListAdapter listAdapter;
     private ArrayList<Item> arrayList;
     private  Item item;
+    private boolean network_enabled = false;
 
     private ProgressDialog progressDialog;
     final String PROGRESS_TITTLE = "Loading" ;
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     final String FAILED_LOCATION = "Failed to get location";
     final String NETWORK_TITTLE = "Network";
     final String NETWORK_MASSAGE = "please check the connection network";
+    final String LOCATION_MASSAGE = "please turn on the location (you need only NETWORK Location !)";
+    final String LOCATION_TITTLE = "Location" ;
+
     final String MASSAGE_BUTTON = "OK" ;
 
 
@@ -107,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
         // location
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+
+
         // spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -115,16 +121,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 // Loading ...
                 progressDialog = ProgressDialog.show(get_context(), PROGRESS_TITTLE, PROGRESS_MASSAGE, true);
 
+
                 loction_selcted = parent.getItemAtPosition(pos).toString();
 
                 if (loction_selcted.equals(CURRENT_LOCATION))
                 {
                     //check GPS availability
-                    boolean isGPSAvailable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                    if (isGPSAvailable) {
+                    boolean isNetworkAvailable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                    if (isNetworkAvailable) {
                         //get GPS updates
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, SECOND*10, MIN_DISTANCE, (LocationListener) context);
                     }
+                    else {
+                        massage(LOCATION_TITTLE , LOCATION_MASSAGE);
+                        progressDialog.cancel();
+                    }
+
                 }
                 else // not current location
                 {
