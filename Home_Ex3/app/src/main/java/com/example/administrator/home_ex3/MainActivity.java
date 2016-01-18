@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener
     private ListAdapter listAdapter;
     private ArrayList<Item> arrayList;
     private  Item item;
-    private boolean network_enabled = false;
 
     private ProgressDialog progressDialog;
     final String PROGRESS_TITTLE = "Loading" ;
