@@ -187,11 +187,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
         if(location.equals(CURRENT_LOCATION))
         {
-            url = "http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&appid=2de143494c0b295cca9337e1e96b00e0";
+            url = "http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=metric&appid=044a75b6e5c310422f6881c4e2c2808a";
         }
         else
         {
-            url = "http://api.openweathermap.org/data/2.5/forecast?q="+location+"&units=metric"+"&appid=2de143494c0b295cca9337e1e96b00e0";
+            url = "http://api.openweathermap.org/data/2.5/forecast?q="+location+"&units=metric"+"&appid=044a75b6e5c310422f6881c4e2c2808a";
         }
 
         // JSON
